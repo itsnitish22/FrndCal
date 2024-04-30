@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="homeLightDark1">#0A0E0F</color>
+    <color name="homeLightDark2">#171B1D</color>
+    <color name="homeLightDark3">#202426</color>
+    <color name="homeLightDark4">#252B2E</color>
+    <color name="whiteH1">#E9E9EA</color>
+    <color name="body1">#BEBEC2</color>
+    <color name="meta1">#9299A1</color>
+    <color name="meta2">#666B71</color>
+    <color name="meta3">#494D51</color>
+
+</resources>
