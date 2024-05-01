@@ -101,4 +101,7 @@ dependencies {
 
     //Facebook Shimmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    //mock server
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }

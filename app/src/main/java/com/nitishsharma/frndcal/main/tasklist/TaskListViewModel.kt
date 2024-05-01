@@ -10,6 +10,8 @@ import com.nitishsharma.frndcal.main.tasklist.datamodel.RemoteTask
 import com.nitishsharma.frndcal.main.tasklist.datamodel.TaskListRequestModel
 import com.nitishsharma.frndcal.main.tasklist.repository.TaskListDefaultRepository
 import com.nitishsharma.frndcal.main.utils.Event
+import com.nitishsharma.frndcal.main.utils.LoadingModel
+import com.nitishsharma.frndcal.main.utils.LoadingState
 import com.nitishsharma.frndcal.main.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,11 +35,14 @@ class TaskListViewModel @Inject constructor(
 
     fun getTasks() {
         viewModelScope.launch {
+            updateLoadingModel(LoadingModel(LoadingState.LOADING, null ,isListEmpty()))
             val response = repository.getTaskList(TaskListRequestModel(2210))
             if (response is Result.Success) {
                 _taskList.postValue(response.data)
+                updateLoadingModel(LoadingModel(LoadingState.COMPLETED, null ,isListEmpty()))
             } else if (response is Result.Error) {
                 Timber.e("Error fetching tasks: ${response.exception.message}")
+                updateLoadingModel(LoadingModel(LoadingState.ERROR, response.exception ,isListEmpty()))
             }
         }
     }
@@ -62,4 +67,6 @@ class TaskListViewModel @Inject constructor(
             _taskList.postValue(AllTasks(newList as ArrayList<RemoteTask>))
         }
     }
+
+    private fun isListEmpty() = _taskList.value?.taskList.isNullOrEmpty()
 }

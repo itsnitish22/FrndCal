@@ -31,6 +31,8 @@ class TaskListFragment : Fragment(), SwipeRefreshCallback {
         savedInstanceState: Bundle?
     ): View = FragmentTaskListBinding.inflate(layoutInflater, container, false).also {
         binding = it
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
