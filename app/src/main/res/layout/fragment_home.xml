@@ -1,4 +1,6 @@
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -7,9 +9,7 @@
             type="com.nitishsharma.frndcal.main.home.HomeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".main.home.HomeFragment">
@@ -29,17 +29,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:onItemSelected="@{(parent, view, position, id) -> viewModel.onMonthItemSelected(position)}"
                 android:entries="@{viewModel.monthsArray}"
+                android:onItemSelected="@{(parent, view, position, id) -> viewModel.onMonthItemSelected(position)}"
                 android:selection="@{viewModel.selectedMonth}" />
 
             <Spinner
                 android:id="@+id/yearPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:onItemSelected="@{(parent, view, position, id) -> viewModel.onYearItemSelected(position)}"
                 android:layout_marginStart="16dp"
                 android:entries="@{viewModel.yearList}"
+                android:onItemSelected="@{(parent, view, position, id) -> viewModel.onYearItemSelected(position)}"
                 android:selection="@{viewModel.selectedYear}" />
 
         </LinearLayout>
@@ -51,6 +51,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/yearMonthLl" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addTaskBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="40dp"
+            android:clickable="true"
+            android:src="@drawable/ic_create"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/viewAllTasks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="View All Tasks"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendarView"
+            tools:layout_editor_absoluteX="237dp"
+            tools:layout_editor_absoluteY="426dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

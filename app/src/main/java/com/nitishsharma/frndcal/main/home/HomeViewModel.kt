@@ -1,14 +1,25 @@
 package com.nitishsharma.frndcal.main.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nitishsharma.frndcal.main.application.common.CommonViewModel
+import com.nitishsharma.frndcal.main.home.datamodel.StoreTaskRequestModel
+import com.nitishsharma.frndcal.main.home.datamodel.TaskModel
+import com.nitishsharma.frndcal.main.home.repository.HomeFragmentDefaultRepository
+import com.nitishsharma.frndcal.main.utils.Event
+import com.nitishsharma.frndcal.main.utils.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Calendar
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor() : CommonViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    val repository: HomeFragmentDefaultRepository
+) : CommonViewModel() {
 
     private val YEAR_RANGE = 50
 
@@ -17,6 +28,9 @@ class HomeViewModel @Inject constructor() : CommonViewModel() {
     val selectedMonth = MutableLiveData<Int>(getCurrentMonth())
     val selectedYear = MutableLiveData<Int>(50)
     val selectedDate = MutableLiveData<Int>(getCurrentDate())
+
+    private val _taskCreated: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val taskCreated: LiveData<Event<Boolean>> get() = _taskCreated
 
     init {
         initMonths()
@@ -68,5 +82,31 @@ class HomeViewModel @Inject constructor() : CommonViewModel() {
 
     fun onYearItemSelected(position: Int) {
         selectedYear.value = position
+    }
+
+    fun storeTaskRemote(taskTitle: String, taskDescription: String) {
+        viewModelScope.launch {
+            val taskRequestModel = StoreTaskRequestModel(
+                2210,
+                TaskModel(
+                    if (taskTitle.isNullOrEmpty()) "Dummy Title" else taskTitle,
+                    if (taskDescription.isNullOrEmpty()) "Dummy description" else taskDescription,
+                    "${selectedDate.value}-${selectedMonth.value?.plus(1)}-${
+                        selectedYear.value?.let {
+                            yearList.value?.get(
+                                it
+                            )
+                        }
+                    }"
+                )
+            )
+            val response = repository.storeTask(taskRequestModel)
+            if (response is Result.Success) {
+                _taskCreated.postValue(Event(true))
+            } else if (response is Result.Error) {
+                Timber.e("Unable to create task: ${response.exception.message}")
+                _taskCreated.postValue(Event(false))
+            }
+        }
     }
 }

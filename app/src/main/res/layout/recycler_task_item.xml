@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="taskId"
+            type="Integer" />
+
+        <variable
+            name="taskTitle"
+            type="String" />
+
+        <variable
+            name="taskDescription"
+            type="String" />
+
+        <variable
+            name="taskDate"
+            type="String" />
+
+        <variable
+            name="callback"
+            type="com.nitishsharma.frndcal.main.tasklist.clickcallback.TaskListItemClickCallback" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sanspro_semibold"
+                    android:maxLines="2"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@{taskTitle}"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@id/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Some Title That dfasdfasdfasddfdsafasNeeds To Be Noticed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sanspro_regular"
+                    android:maxLines="3"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="@{taskDescription}"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    tools:text="Some Title That fasfasdfasfsafdadfasdfasdfasdffdasdfsafsdfadsfsfasfdsafsfasfasNeeds To Be Noticed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/date"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sanspro_regular"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="@{taskDate}"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="15-03-2024" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->callback.deleteTask(taskId)}"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_cancel"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
