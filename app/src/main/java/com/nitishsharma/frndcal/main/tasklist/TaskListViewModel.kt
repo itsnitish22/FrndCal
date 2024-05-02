@@ -35,14 +35,20 @@ class TaskListViewModel @Inject constructor(
 
     fun getTasks() {
         viewModelScope.launch {
-            updateLoadingModel(LoadingModel(LoadingState.LOADING, null ,isListEmpty()))
+            updateLoadingModel(LoadingModel(LoadingState.LOADING, null, isListEmpty()))
             val response = repository.getTaskList(TaskListRequestModel(2210))
             if (response is Result.Success) {
                 _taskList.postValue(response.data)
-                updateLoadingModel(LoadingModel(LoadingState.COMPLETED, null ,isListEmpty()))
+                updateLoadingModel(LoadingModel(LoadingState.COMPLETED, null, isListEmpty()))
             } else if (response is Result.Error) {
                 Timber.e("Error fetching tasks: ${response.exception.message}")
-                updateLoadingModel(LoadingModel(LoadingState.ERROR, response.exception ,isListEmpty()))
+                updateLoadingModel(
+                    LoadingModel(
+                        LoadingState.ERROR,
+                        response.exception,
+                        isListEmpty()
+                    )
+                )
             }
         }
     }

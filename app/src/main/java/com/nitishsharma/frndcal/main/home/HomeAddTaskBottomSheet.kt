@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nitishsharma.frndcal.databinding.FragmentHomeAddTaskBottomSheetBinding
+import com.nitishsharma.frndcal.main.home.homeNew.HomeFragmentNewViewModel
 
 class HomeAddTaskBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentHomeAddTaskBottomSheetBinding
-    private val viewmodel: HomeViewModel by activityViewModels()
+    private val viewmodel: HomeFragmentNewViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

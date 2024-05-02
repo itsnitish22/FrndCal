@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeFragmentNew">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -19,5 +19,14 @@
         android:name="com.nitishsharma.frndcal.main.tasklist.TaskListFragment"
         android:label="TaskListFragment"
         tools:layout="@layout/fragment_task_list" />
+    <fragment
+        android:id="@+id/homeFragmentNew"
+        android:name="com.nitishsharma.frndcal.main.home.homeNew.HomeFragmentNew"
+        android:label="HomeFragmentNew"
+        tools:layout="@layout/fragment_home_fragment_new">
+        <action
+            android:id="@+id/action_homeFragmentNew_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
+    </fragment>
 
 </navigation>

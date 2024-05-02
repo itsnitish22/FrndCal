@@ -9,5 +9,7 @@
     <color name="meta1">#9299A1</color>
     <color name="meta2">#666B71</color>
     <color name="meta3">#494D51</color>
+    <color name="calendarPrim">#FDFDFD</color>
+    <color name="calendarCellColorText">@color/black</color>
 
 </resources>

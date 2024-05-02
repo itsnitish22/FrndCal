@@ -12,5 +12,11 @@
     <color name="meta2">#808080</color>
     <color name="meta3">#9597A1</color>
     <color name="shimmer_background">#dddddd</color>
+    <color name="calendarSec">#A8A5A5</color>
+    <color name="calendarPrim">#000000</color>
+    <color name="calendarCellColorText">#FFFFFF</color>
+    <color name="calendar_next_dates">#E1E1E1</color>
+    <color name="calendar_cell_color">#9EA0A1</color>
+
 
 </resources>

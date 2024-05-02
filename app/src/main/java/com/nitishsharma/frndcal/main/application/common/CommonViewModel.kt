@@ -3,8 +3,6 @@ package com.nitishsharma.frndcal.main.application.common
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavDirections
-import com.nitishsharma.frndcal.main.utils.Event
 import com.nitishsharma.frndcal.main.utils.LoadingModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

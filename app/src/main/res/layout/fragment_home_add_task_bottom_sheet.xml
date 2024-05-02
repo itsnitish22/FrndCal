@@ -55,6 +55,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:backgroundTint="?attr/colorPrimary"
         android:fontFamily="@font/sanspro_regular"
         android:text="Submit"
         android:textAllCaps="false"
