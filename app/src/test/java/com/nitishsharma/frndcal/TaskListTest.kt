@@ -15,20 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class TaskListTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var taskListApi: TaskListRemoteRepository.TaskListAPIService
-
-    @Before
-    fun setup() {
-        mockWebServer = MockWebServer()
-        taskListApi = Retrofit.Builder()
-            .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(TaskListRemoteRepository.TaskListAPIService::class.java)
-    }
-
-    @Test
-    fun testGetTask() = runBlocking {
-        val taskListJson = """
+    val taskListJson = """
         {
             "tasks": [
                 {
@@ -66,6 +53,19 @@ class TaskListTest {
             ]
         }
     """.trimIndent()
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        taskListApi = Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TaskListRemoteRepository.TaskListAPIService::class.java)
+    }
+
+    @Test
+    fun testResponseNotEmpty() = runBlocking {
         val mockResponse = MockResponse().setBody(taskListJson)
         mockWebServer.enqueue(mockResponse)
 
@@ -74,19 +74,72 @@ class TaskListTest {
         val request = mockWebServer.takeRequest()
         Assert.assertEquals("/api/getCalendarTaskList", request.path)
 
-
         Assert.assertTrue(!response.taskList.isNullOrEmpty())
+    }
+
+    @Test
+    fun testResponseSize() = runBlocking {
+        val mockResponse = MockResponse().setBody(taskListJson)
+        mockWebServer.enqueue(mockResponse)
+
+        val response = taskListApi.getTaskList(TaskListRequestModel(2210))
+
         Assert.assertEquals(4, response.taskList?.size)
+    }
+
+    @Test
+    fun testFirstTaskId() = runBlocking {
+        val mockResponse = MockResponse().setBody(taskListJson)
+        mockWebServer.enqueue(mockResponse)
+
+        val response = taskListApi.getTaskList(TaskListRequestModel(2210))
 
         Assert.assertEquals(2164, response.taskList?.get(0)?.taskId)
+    }
+
+    @Test
+    fun testFirstTaskDate() = runBlocking {
+        val mockResponse = MockResponse().setBody(taskListJson)
+        mockWebServer.enqueue(mockResponse)
+
+        val response = taskListApi.getTaskList(TaskListRequestModel(2210))
+
         Assert.assertEquals("25-10-2029", response.taskList?.get(0)?.taskDetail?.taskDate)
+    }
+
+    @Test
+    fun testFirstTaskTitle() = runBlocking {
+        val mockResponse = MockResponse().setBody(taskListJson)
+        mockWebServer.enqueue(mockResponse)
+
+        val response = taskListApi.getTaskList(TaskListRequestModel(2210))
+
         Assert.assertEquals("Cc", response.taskList?.get(0)?.taskDetail?.taskTitle)
+    }
+
+    @Test
+    fun testFirstTaskDescription() = runBlocking {
+        val mockResponse = MockResponse().setBody(taskListJson)
+        mockWebServer.enqueue(mockResponse)
+
+        val response = taskListApi.getTaskList(TaskListRequestModel(2210))
+
         Assert.assertEquals("Ff", response.taskList?.get(0)?.taskDetail?.taskDescription)
     }
 
+    @Test
+    fun runTests() {
+        testFirstTaskDescription()
+        testFirstTaskTitle()
+        testFirstTaskDate()
+        testFirstTaskId()
+        testResponseSize()
+        testResponseNotEmpty()
+    }
 
     @After
     fun tearDown() {
         mockWebServer.shutdown()
     }
 }
+
