@@ -95,7 +95,6 @@ class HomeFragmentNew : Fragment() {
             viewModel.changeSelectedMonth(month)
         }
         viewModel.localDateLiveData.observe(viewLifecycleOwner) { localDate ->
-            Timber.e("Date is: $localDate")
             val month = localDate.monthValue
             val year = localDate.year
             Timber.e("Date is: $localDate $month $year")

@@ -4,16 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragmentNew">
-
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.nitishsharma.frndcal.main.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_taskListFragment"
-            app:destination="@id/taskListFragment" />
-    </fragment>
     <fragment
         android:id="@+id/taskListFragment"
         android:name="com.nitishsharma.frndcal.main.tasklist.TaskListFragment"
