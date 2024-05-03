@@ -1,6 +1,5 @@
 package com.nitishsharma.frndcal.main.home.homeNew
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -17,16 +16,16 @@ class CalendarAdapter(
     private val daysOfMonth: ArrayList<String>,
     private val onItemListener: OnItemListener
 ) :
-    RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+    RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
     var previousSelectedPosition: Int = -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.reycler_calendar_cell_item, parent, false)
-        return CalendarViewHolder(view, onItemListener)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (daysOfMonth[position] == "") {
             holder.dayOfMonth.visibility = View.GONE
         }
@@ -34,6 +33,27 @@ class CalendarAdapter(
             "0${daysOfMonth[position]}"
         } else {
             daysOfMonth[position]
+        }
+
+        holder.itemView.setOnClickListener {
+            previousSelectedPosition = if (previousSelectedPosition == -1) {
+                holder.itemView.setBackgroundResource(R.drawable.calendar_cell_bg_selected)
+                val dayTextView = holder.itemView.findViewById<TextView>(R.id.cellDayText)
+                dayTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.calendarCellColorText))
+                position
+            } else {
+                val previousView = (holder.itemView.parent as RecyclerView).findViewHolderForAdapterPosition(previousSelectedPosition)?.itemView
+                previousView?.setBackgroundResource(R.drawable.calendar_cell_bg)
+                val previousTextView = previousView?.findViewById<TextView>(R.id.cellDayText)
+                previousTextView?.setTextColor(ContextCompat.getColor(previousTextView.context, R.color.calendarPrim))
+
+                val dayTextView = holder.itemView.findViewById<TextView>(R.id.cellDayText)
+                dayTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.calendarCellColorText))
+                holder.itemView.setBackgroundResource(R.drawable.calendar_cell_bg_selected)
+                position
+            }
+
+            onItemListener.onItemClick(position, daysOfMonth[position])
         }
     }
 
@@ -45,61 +65,8 @@ class CalendarAdapter(
         fun onItemClick(position: Int, dayText: String?)
     }
 
-    inner class CalendarViewHolder(itemView: View, onItemListener: OnItemListener) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val dayOfMonth: TextView
-        private val onItemListener: OnItemListener
-
-        init {
-            dayOfMonth = itemView.findViewById(R.id.cellDayText)
-            this.onItemListener = onItemListener
-            itemView.setOnClickListener(this)
-        }
-
-        @SuppressLint("ResourceAsColor")
-        @RequiresApi(Build.VERSION_CODES.O)
-        override fun onClick(view: View) {
-            val position = adapterPosition
-            val dayText = dayOfMonth.text.toString()
-
-            previousSelectedPosition = if (previousSelectedPosition == -1) {
-                itemView.setBackgroundResource(R.drawable.calendar_cell_bg_selected)
-                val dayTextView = itemView.findViewById<TextView>(R.id.cellDayText)
-                dayTextView.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.calendarCellColorText
-                    )
-                )
-                position
-            } else {
-                val previousView =
-                    (itemView.parent as RecyclerView).findViewHolderForAdapterPosition(
-                        previousSelectedPosition
-                    )?.itemView
-                previousView?.setBackgroundResource(R.drawable.calendar_cell_bg)
-                val previousTextView = previousView?.findViewById<TextView>(R.id.cellDayText)
-                previousTextView?.setTextColor(
-                    ContextCompat.getColor(
-                        previousTextView.context,
-                        R.color.calendarPrim
-                    )
-                )
-
-                val dayTextView = itemView.findViewById<TextView>(R.id.cellDayText)
-                dayTextView.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        R.color.calendarCellColorText
-                    )
-                )
-                itemView.setBackgroundResource(R.drawable.calendar_cell_bg_selected)
-                position
-            }
-
-            onItemListener.onItemClick(position, dayText)
-        }
-
+    inner class ViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        val dayOfMonth: TextView = itemView.findViewById(R.id.cellDayText)
     }
-
 }
