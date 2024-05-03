@@ -14,8 +14,6 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 
 class CalendarAdapter(
-    private val userSelectedDate: LocalDate,
-    private val localDate: LocalDate,
     private val daysOfMonth: ArrayList<String>,
     private val onItemListener: OnItemListener
 ) :
@@ -36,15 +34,6 @@ class CalendarAdapter(
             "0${daysOfMonth[position]}"
         } else {
             daysOfMonth[position]
-        }
-
-        if(daysOfMonth[position] != "") {
-            if (userSelectedDate.dayOfMonth == daysOfMonth[position].toInt() && localDate.monthValue == userSelectedDate.monthValue && userSelectedDate.year == localDate.year && userSelectedDate.dayOfMonth == localDate.dayOfMonth) {
-                previousSelectedPosition = position
-                holder.itemView.setBackgroundResource(R.drawable.calendar_cell_bg_selected)
-                val dayTextView = holder.itemView.findViewById<TextView>(R.id.cellDayText)
-                dayTextView.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.calendarCellColorText))
-            }
         }
 
         holder.itemView.setOnClickListener {
