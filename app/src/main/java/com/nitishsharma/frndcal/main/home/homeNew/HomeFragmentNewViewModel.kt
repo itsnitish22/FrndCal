@@ -41,9 +41,13 @@ class HomeFragmentNewViewModel @Inject constructor(
     private val _taskCreated: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val taskCreated: LiveData<Event<Boolean>> get() = _taskCreated
 
-    private val _userSelectedDate: MutableLiveData<String> =
-        MutableLiveData(_localDateLiveData.value.toString())
-    val userSelectedDate: LiveData<String> get() = _userSelectedDate
+//    private val _userSelectedDate: MutableLiveData<String> =
+//        MutableLiveData(_localDateLiveData.value.toString())
+//    val userSelectedDate: LiveData<String> get() = _userSelectedDate
+
+    private val _userSelectedDate: MutableLiveData<LocalDate> =
+        MutableLiveData(_localDateLiveData.value)
+    val userSelectedDate: LiveData<LocalDate> get() = _userSelectedDate
 
 
     fun minusMonth() {
@@ -90,7 +94,7 @@ class HomeFragmentNewViewModel @Inject constructor(
         }
     }
 
-    fun updateUserSelectedDate(userDate: String) {
+    fun updateUserSelectedDate(userDate: LocalDate) {
         _userSelectedDate.postValue(userDate)
     }
 }

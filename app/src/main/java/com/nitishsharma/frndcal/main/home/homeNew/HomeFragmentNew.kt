@@ -162,17 +162,30 @@ class HomeFragmentNew : Fragment() {
                     it
                 )
             }
-        val calendarAdapter = daysInMonth?.let {
-            CalendarAdapter(
-                daysOfMonth = it,
-                object : CalendarAdapter.OnItemListener {
-                    override fun onItemClick(position: Int, dayText: String?) {
-                        Timber.e("SelectedDate: $dayText-${viewModel.monthLiveData.value}-${viewModel.yearLiveData.value}")
-                        viewModel.updateUserSelectedDate("$dayText-${viewModel.monthLiveData.value}-${viewModel.yearLiveData.value}")
-                    }
+        val calendarAdapter = daysInMonth?.let { daysOfMonth ->
+            viewModel.userSelectedDate.value?.let { selectedDate ->
+                viewModel.localDateLiveData.value?.let { localDate ->
+                    CalendarAdapter(
+                        selectedDate,
+                        localDate,
+                        daysOfMonth = daysOfMonth,
+                        object : CalendarAdapter.OnItemListener {
+                            override fun onItemClick(position: Int, dayText: String?) {
+                                try {
+                                    val paddedMonth = viewModel.monthLiveData.value.toString().padStart(2, '0')
+                                    val paddedDay = dayText?.padStart(2, '0')
+                                    val text = "${viewModel.yearLiveData.value}-$paddedMonth-$paddedDay"
+                                    viewModel.updateUserSelectedDate(LocalDate.parse(text))
+                                } catch (e: Exception) {
+                                    Timber.e(e.message.toString())
+                                }
+                            }
+                        }
+                    )
                 }
-            )
+            }
         }
+
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(requireContext(), 7)
         binding.calendarRecyclerView.layoutManager = layoutManager
